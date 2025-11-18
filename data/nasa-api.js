@@ -222,7 +222,8 @@ class NASADataAPI {
      * Get ISS current location
      */
     async getISSLocation() {
-        const url = 'http://api.open-notify.org/iss-now.json';
+        // Use HTTPS to avoid mixed content issues
+        const url = 'https://api.wheretheiss.at/v1/satellites/25544';
 
         try {
             const response = await fetch(url);
@@ -231,10 +232,26 @@ class NASADataAPI {
             }
 
             const data = await response.json();
-            return data;
+
+            // Normalize response format to match expected structure
+            return {
+                iss_position: {
+                    latitude: data.latitude.toString(),
+                    longitude: data.longitude.toString()
+                },
+                timestamp: Math.floor(data.timestamp)
+            };
         } catch (error) {
             console.error('ISS API error:', error);
-            return null;
+            // Return mock data as fallback
+            return {
+                iss_position: {
+                    latitude: '0',
+                    longitude: '0'
+                },
+                timestamp: Date.now() / 1000,
+                error: true
+            };
         }
     }
 

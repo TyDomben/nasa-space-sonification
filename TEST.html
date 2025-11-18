@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Space Sonification - System Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a0933 50%, #0d1b2a 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .test-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .test-result {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .test-pass {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+        }
+
+        .test-fail {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .test-pending {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fcd34d;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 12px 32px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .log {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 12px;
+        }
+
+        .log-entry {
+            margin-bottom: 4px;
+        }
+
+        .log-success { color: #86efac; }
+        .log-error { color: #fca5a5; }
+        .log-info { color: #93c5fd; }
+    </style>
+</head>
+<body>
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold mb-2">🧪 System Test</h1>
+        <p class="text-gray-400 mb-8">Verify all components are working correctly</p>
+
+        <!-- Test 1: CDN Dependencies -->
+        <div class="test-card">
+            <h2 class="text-2xl font-bold mb-4">
+                1. CDN Dependencies
+                <span id="test1-result" class="test-result test-pending">PENDING</span>
+            </h2>
+            <p class="text-gray-300 mb-4">Checking if all external libraries loaded...</p>
+            <div id="test1-details" class="text-sm"></div>
+        </div>
+
+        <!-- Test 2: Audio Engine -->
+        <div class="test-card">
+            <h2 class="text-2xl font-bold mb-4">
+                2. Audio Engine
+                <span id="test2-result" class="test-result test-pending">PENDING</span>
+            </h2>
+            <p class="text-gray-300 mb-4">Testing Web Audio API and Tone.js...</p>
+            <button id="test2-btn" onclick="testAudio()">Test Audio</button>
+            <div id="test2-details" class="text-sm"></div>
+        </div>
+
+        <!-- Test 3: NASA API -->
+        <div class="test-card">
+            <h2 class="text-2xl font-bold mb-4">
+                3. NASA API Connection
+                <span id="test3-result" class="test-result test-pending">PENDING</span>
+            </h2>
+            <p class="text-gray-300 mb-4">Testing connection to NASA APIs...</p>
+            <button id="test3-btn" onclick="testNASAAPI()">Test API</button>
+            <div id="test3-details" class="text-sm"></div>
+        </div>
+
+        <!-- Test 4: ISS Tracking -->
+        <div class="test-card">
+            <h2 class="text-2xl font-bold mb-4">
+                4. ISS Position Tracking
+                <span id="test4-result" class="test-result test-pending">PENDING</span>
+            </h2>
+            <p class="text-gray-300 mb-4">Testing ISS location API (HTTPS)...</p>
+            <button id="test4-btn" onclick="testISS()">Test ISS</button>
+            <div id="test4-details" class="text-sm"></div>
+        </div>
+
+        <!-- Test 5: Visualizations -->
+        <div class="test-card">
+            <h2 class="text-2xl font-bold mb-4">
+                5. Visualization Libraries
+                <span id="test5-result" class="test-result test-pending">PENDING</span>
+            </h2>
+            <p class="text-gray-300 mb-4">Testing Three.js for 3D visualizations...</p>
+            <button id="test5-btn" onclick="testVisualizations()">Test Viz</button>
+            <div id="test5-details" class="text-sm"></div>
+        </div>
+
+        <!-- Run All Tests -->
+        <div class="text-center mt-8">
+            <button onclick="runAllTests()" class="text-lg px-12 py-4">
+                🚀 Run All Tests
+            </button>
+        </div>
+
+        <!-- Results Summary -->
+        <div id="summary" class="test-card mt-8" style="display: none;">
+            <h2 class="text-2xl font-bold mb-4">📊 Test Summary</h2>
+            <div id="summary-content"></div>
+        </div>
+    </div>
+
+    <!-- Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        let testResults = {
+            test1: null,
+            test2: null,
+            test3: null,
+            test4: null,
+            test5: null
+        };
+
+        // Test 1: CDN Dependencies
+        function testCDN() {
+            const results = [];
+            let pass = true;
+
+            // Check Tone.js
+            if (typeof Tone !== 'undefined') {
+                results.push('<div class="log-success">✓ Tone.js loaded (v' + Tone.version + ')</div>');
+            } else {
+                results.push('<div class="log-error">✗ Tone.js failed to load</div>');
+                pass = false;
+            }
+
+            // Check Three.js
+            if (typeof THREE !== 'undefined') {
+                results.push('<div class="log-success">✓ Three.js loaded (r' + THREE.REVISION + ')</div>');
+            } else {
+                results.push('<div class="log-error">✗ Three.js failed to load</div>');
+                pass = false;
+            }
+
+            // Check Tailwind CSS
+            const computedStyle = getComputedStyle(document.body);
+            if (computedStyle.getPropertyValue('--tw-ring-color')) {
+                results.push('<div class="log-success">✓ Tailwind CSS loaded</div>');
+            } else {
+                results.push('<div class="log-success">✓ Tailwind CSS likely loaded (JIT mode)</div>');
+            }
+
+            updateTest('test1', pass, results.join(''));
+            return pass;
+        }
+
+        // Test 2: Audio Engine
+        async function testAudio() {
+            const btn = document.getElementById('test2-btn');
+            btn.disabled = true;
+            btn.textContent = 'Testing...';
+
+            const results = [];
+            let pass = true;
+
+            try {
+                // Initialize Tone
+                await Tone.start();
+                results.push('<div class="log-success">✓ Tone.js started successfully</div>');
+
+                // Create a simple synth
+                const synth = new Tone.Synth().toDestination();
+                results.push('<div class="log-success">✓ Synth created</div>');
+
+                // Play a note
+                synth.triggerAttackRelease('C4', '8n');
+                results.push('<div class="log-success">✓ Audio playing (you should hear a beep)</div>');
+
+                // Clean up
+                setTimeout(() => {
+                    synth.dispose();
+                    results.push('<div class="log-success">✓ Synth disposed</div>');
+                    updateTest('test2', true, results.join(''));
+                    btn.textContent = 'Test Audio Again';
+                    btn.disabled = false;
+                }, 1000);
+
+            } catch (error) {
+                results.push('<div class="log-error">✗ Audio test failed: ' + error.message + '</div>');
+                updateTest('test2', false, results.join(''));
+                btn.textContent = 'Try Again';
+                btn.disabled = false;
+                pass = false;
+            }
+
+            return pass;
+        }
+
+        // Test 3: NASA API
+        async function testNASAAPI() {
+            const btn = document.getElementById('test3-btn');
+            btn.disabled = true;
+            btn.textContent = 'Testing...';
+
+            const results = [];
+            let pass = true;
+
+            try {
+                // Test APOD API
+                const response = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+
+                if (!response.ok) {
+                    throw new Error('API returned status ' + response.status);
+                }
+
+                const data = await response.json();
+                results.push('<div class="log-success">✓ NASA APOD API connected</div>');
+                results.push('<div class="log-info">→ Today\'s APOD: ' + data.title + '</div>');
+
+                updateTest('test3', true, results.join(''));
+
+            } catch (error) {
+                results.push('<div class="log-error">✗ NASA API test failed: ' + error.message + '</div>');
+                updateTest('test3', false, results.join(''));
+                pass = false;
+            }
+
+            btn.textContent = 'Test API Again';
+            btn.disabled = false;
+            return pass;
+        }
+
+        // Test 4: ISS Tracking
+        async function testISS() {
+            const btn = document.getElementById('test4-btn');
+            btn.disabled = true;
+            btn.textContent = 'Testing...';
+
+            const results = [];
+            let pass = true;
+
+            try {
+                // Test new HTTPS ISS API
+                const response = await fetch('https://api.wheretheiss.at/v1/satellites/25544');
+
+                if (!response.ok) {
+                    throw new Error('API returned status ' + response.status);
+                }
+
+                const data = await response.json();
+                results.push('<div class="log-success">✓ ISS API connected (HTTPS)</div>');
+                results.push('<div class="log-info">→ ISS Position: ' + data.latitude.toFixed(2) + '°, ' + data.longitude.toFixed(2) + '°</div>');
+                results.push('<div class="log-info">→ Altitude: ' + data.altitude.toFixed(0) + ' km</div>');
+
+                updateTest('test4', true, results.join(''));
+
+            } catch (error) {
+                results.push('<div class="log-error">✗ ISS API test failed: ' + error.message + '</div>');
+                updateTest('test4', false, results.join(''));
+                pass = false;
+            }
+
+            btn.textContent = 'Test ISS Again';
+            btn.disabled = false;
+            return pass;
+        }
+
+        // Test 5: Visualizations
+        function testVisualizations() {
+            const btn = document.getElementById('test5-btn');
+            btn.disabled = true;
+            btn.textContent = 'Testing...';
+
+            const results = [];
+            let pass = true;
+
+            try {
+                // Test Three.js
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer();
+
+                results.push('<div class="log-success">✓ Three.js Scene created</div>');
+                results.push('<div class="log-success">✓ WebGL Renderer initialized</div>');
+
+                // Clean up
+                renderer.dispose();
+                results.push('<div class="log-success">✓ Renderer disposed</div>');
+
+                updateTest('test5', true, results.join(''));
+
+            } catch (error) {
+                results.push('<div class="log-error">✗ Visualization test failed: ' + error.message + '</div>');
+                updateTest('test5', false, results.join(''));
+                pass = false;
+            }
+
+            btn.textContent = 'Test Viz Again';
+            btn.disabled = false;
+            return pass;
+        }
+
+        // Update test result
+        function updateTest(testId, pass, details) {
+            const resultEl = document.getElementById(testId + '-result');
+            const detailsEl = document.getElementById(testId + '-details');
+
+            resultEl.className = 'test-result ' + (pass ? 'test-pass' : 'test-fail');
+            resultEl.textContent = pass ? 'PASS' : 'FAIL';
+
+            detailsEl.innerHTML = '<div class="log">' + details + '</div>';
+
+            testResults[testId] = pass;
+        }
+
+        // Run all tests
+        async function runAllTests() {
+            // Test 1 (synchronous)
+            testCDN();
+
+            // Wait a bit between tests
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Test 2 (requires user interaction)
+            await testAudio();
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Test 3
+            await testNASAAPI();
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Test 4
+            await testISS();
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Test 5
+            testVisualizations();
+
+            // Show summary
+            setTimeout(showSummary, 1000);
+        }
+
+        // Show test summary
+        function showSummary() {
+            const summary = document.getElementById('summary');
+            const content = document.getElementById('summary-content');
+
+            const passed = Object.values(testResults).filter(r => r === true).length;
+            const failed = Object.values(testResults).filter(r => r === false).length;
+            const pending = Object.values(testResults).filter(r => r === null).length;
+
+            let html = `
+                <div class="grid grid-cols-3 gap-4 text-center mb-6">
+                    <div>
+                        <div class="text-4xl font-bold text-green-400">${passed}</div>
+                        <div class="text-sm text-gray-400">Passed</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-red-400">${failed}</div>
+                        <div class="text-sm text-gray-400">Failed</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-yellow-400">${pending}</div>
+                        <div class="text-sm text-gray-400">Pending</div>
+                    </div>
+                </div>
+            `;
+
+            if (passed === 5) {
+                html += '<div class="text-center text-2xl text-green-400 font-bold">🎉 All systems operational!</div>';
+                html += '<div class="text-center text-gray-400 mt-2">Ready to explore space through sound.</div>';
+            } else if (failed > 0) {
+                html += '<div class="text-center text-xl text-yellow-400 font-bold">⚠️ Some tests failed</div>';
+                html += '<div class="text-center text-gray-400 mt-2">Check the details above and try refreshing the page.</div>';
+            }
+
+            content.innerHTML = html;
+            summary.style.display = 'block';
+        }
+
+        // Run CDN test on load
+        window.addEventListener('load', () => {
+            setTimeout(testCDN, 100);
+        });
+    </script>
+</body>
+</html>

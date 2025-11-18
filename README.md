@@ -12,6 +12,15 @@ Experience the universe through sound! This interactive web application converts
 
 ---
 
+## 📖 Documentation
+
+- **[README.md](README.md)** - This file! Features, installation, and overview
+- **[USAGE.md](USAGE.md)** - Complete usage guide, tutorials, and FAQ
+- **[IMPROVEMENTS.md](IMPROVEMENTS.md)** - All bug fixes, improvements, and production readiness checklist
+- **[TEST.html](TEST.html)** - Interactive system test page - verify everything works!
+
+---
+
 ## ✨ Features
 
 ### 🎵 **Pre-made Sonifications**
