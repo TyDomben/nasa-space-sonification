@@ -334,6 +334,7 @@
             <div class="hidden md:flex space-x-8">
                 <a href="#home" class="hover:text-purple-400 transition">Home</a>
                 <a href="#gallery" class="hover:text-purple-400 transition">Gallery</a>
+                <a href="#tours" class="hover:text-purple-400 transition">Tours</a>
                 <a href="#create" class="hover:text-purple-400 transition">Create</a>
                 <a href="#learn" class="hover:text-purple-400 transition">Learn</a>
                 <a href="#live" class="hover:text-purple-400 transition">Live Data</a>
@@ -348,6 +349,7 @@
     <div id="mobile-menu" class="mobile-menu">
         <a href="#home">Home</a>
         <a href="#gallery">Gallery</a>
+        <a href="#tours">Tours</a>
         <a href="#create">Create</a>
         <a href="#learn">Learn</a>
         <a href="#live">Live Data</a>
@@ -446,6 +448,113 @@
                         <i class="fas fa-rocket text-4xl mb-4 block"></i>
                         Creation tool loading...
                     </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guided Tours Section -->
+    <section id="tours" class="py-20 px-6 relative z-10">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4 gradient-text">
+                Guided Tours
+            </h2>
+            <p class="text-center text-gray-300 text-lg mb-12 max-w-3xl mx-auto">
+                Experience curated journeys through space with narrated storylines.
+                Let us guide you through the cosmos with automatic playback and educational content.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Tour 1: Deep Space Journey -->
+                <div class="glass-card p-8 hover:transform hover:scale-105 transition duration-300">
+                    <div class="flex items-start gap-4 mb-4">
+                        <i class="fas fa-galaxy text-5xl text-purple-400"></i>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-2">Journey Through Deep Space</h3>
+                            <div class="flex gap-4 text-sm text-gray-400 mb-3">
+                                <span><i class="fas fa-clock mr-1"></i> 10 minutes</span>
+                                <span><i class="fas fa-signal mr-1"></i> Beginner</span>
+                                <span><i class="fas fa-book mr-1"></i> Educational</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6">
+                        Travel billions of light years from Earth, experiencing the most distant and ancient
+                        objects in the universe. From the Hubble Deep Field to the Helix Nebula, discover
+                        galaxies, nebulae, and the cosmic structures that define our universe.
+                    </p>
+                    <button class="btn-primary w-full" onclick="tourPlayer?.startTour('deep-space-journey')">
+                        <i class="fas fa-play mr-2"></i> Start Journey
+                    </button>
+                </div>
+
+                <!-- Tour 2: Solar System Symphony -->
+                <div class="glass-card p-8 hover:transform hover:scale-105 transition duration-300">
+                    <div class="flex items-start gap-4 mb-4">
+                        <i class="fas fa-sun text-5xl text-yellow-400"></i>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-2">Solar System Symphony</h3>
+                            <div class="flex gap-4 text-sm text-gray-400 mb-3">
+                                <span><i class="fas fa-clock mr-1"></i> 9 minutes</span>
+                                <span><i class="fas fa-signal mr-1"></i> Beginner</span>
+                                <span><i class="fas fa-book mr-1"></i> Educational</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6">
+                        A musical journey through our cosmic neighborhood, from the Sun to the outer planets.
+                        Visit Mercury's scorched surface, Venus's hellish atmosphere, Jupiter's Great Red Spot,
+                        Saturn's majestic rings, and beyond to the edge of the solar system.
+                    </p>
+                    <button class="btn-primary w-full" onclick="tourPlayer?.startTour('solar-system-symphony')">
+                        <i class="fas fa-play mr-2"></i> Start Symphony
+                    </button>
+                </div>
+
+                <!-- Tour 3: Cosmic Violence -->
+                <div class="glass-card p-8 hover:transform hover:scale-105 transition duration-300">
+                    <div class="flex items-start gap-4 mb-4">
+                        <i class="fas fa-explosion text-5xl text-red-400"></i>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-2">Cosmic Violence</h3>
+                            <div class="flex gap-4 text-sm text-gray-400 mb-3">
+                                <span><i class="fas fa-clock mr-1"></i> 8 minutes</span>
+                                <span><i class="fas fa-signal mr-1"></i> Intermediate</span>
+                                <span><i class="fas fa-fire mr-1"></i> Dramatic</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6">
+                        Experience the most energetic events in the universe. Black holes devouring matter,
+                        pulsars spinning hundreds of times per second, supernova explosions, gravitational
+                        waves, and galaxy collisions. The universe is beautiful, but also violently creative.
+                    </p>
+                    <button class="btn-primary w-full" onclick="tourPlayer?.startTour('cosmic-violence')">
+                        <i class="fas fa-play mr-2"></i> Start Tour
+                    </button>
+                </div>
+
+                <!-- Tour 4: Human Exploration -->
+                <div class="glass-card p-8 hover:transform hover:scale-105 transition duration-300">
+                    <div class="flex items-start gap-4 mb-4">
+                        <i class="fas fa-rocket text-5xl text-blue-400"></i>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-2">Human Exploration</h3>
+                            <div class="flex gap-4 text-sm text-gray-400 mb-3">
+                                <span><i class="fas fa-clock mr-1"></i> 7 minutes</span>
+                                <span><i class="fas fa-signal mr-1"></i> Beginner</span>
+                                <span><i class="fas fa-heart mr-1"></i> Inspirational</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6">
+                        Celebrate humanity's greatest achievements in space exploration. From Apollo 11's
+                        moon landing to the Voyager missions, Hubble's eye on the universe, Cassini at Saturn,
+                        and the James Webb Space Telescope. Hear the sounds of our journey to the stars.
+                    </p>
+                    <button class="btn-primary w-full" onclick="tourPlayer?.startTour('human-exploration')">
+                        <i class="fas fa-play mr-2"></i> Start Journey
+                    </button>
                 </div>
             </div>
         </div>
@@ -593,6 +702,8 @@
     <script src="visualizations/particles.js"></script>
     <script src="gallery/gallery-manager.js"></script>
     <script src="create/creation-tool.js"></script>
+    <script src="tours/tour-data.js"></script>
+    <script src="tours/tour-player.js"></script>
     <script src="educational-modal.js"></script>
     <script src="app.js"></script>
 </body>

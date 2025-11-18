@@ -30,6 +30,12 @@ class SpaceSonificationApp {
                 creationTool.init();
             }
 
+            // Initialize tour player
+            if (typeof TourPlayer !== 'undefined' && typeof galleryManager !== 'undefined') {
+                window.tourPlayer = new TourPlayer(galleryManager);
+                console.log('Tour Player initialized');
+            }
+
             // Initialize live data features
             this.initializeLiveData();
 

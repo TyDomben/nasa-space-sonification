@@ -538,6 +538,37 @@ class GalleryManager {
     }
 
     /**
+     * Open player for tour (no modal, just play)
+     */
+    async openPlayerInTour(item) {
+        // Store current sonification
+        this.currentSonification = item;
+
+        // Initialize audio engine if needed
+        await audioEngine.init();
+
+        // Stop any currently playing audio
+        this.stopCurrentSonification();
+
+        // Prepare and play sonification
+        try {
+            const sonificationData = await this.prepareSonification(item);
+            await sonificationEngine.playSonification(sonificationData);
+        } catch (error) {
+            console.error('Error playing tour sonification:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Stop currently playing sonification without closing modal
+     */
+    stopCurrentSonification() {
+        audioEngine.stopAll();
+        sonificationEngine.stopPlayback();
+    }
+
+    /**
      * Load featured sonification
      */
     async loadFeatured() {
