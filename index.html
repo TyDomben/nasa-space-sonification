@@ -335,6 +335,7 @@
                 <a href="#home" class="hover:text-purple-400 transition">Home</a>
                 <a href="#gallery" class="hover:text-purple-400 transition">Gallery</a>
                 <a href="#tours" class="hover:text-purple-400 transition">Tours</a>
+                <a href="#meditation" class="hover:text-purple-400 transition">Meditation</a>
                 <a href="#create" class="hover:text-purple-400 transition">Create</a>
                 <a href="#learn" class="hover:text-purple-400 transition">Learn</a>
                 <a href="#live" class="hover:text-purple-400 transition">Live Data</a>
@@ -350,6 +351,7 @@
         <a href="#home">Home</a>
         <a href="#gallery">Gallery</a>
         <a href="#tours">Tours</a>
+        <a href="#meditation">Meditation</a>
         <a href="#create">Create</a>
         <a href="#learn">Learn</a>
         <a href="#live">Live Data</a>
@@ -560,6 +562,160 @@
         </div>
     </section>
 
+    <!-- Meditation & Focus Section -->
+    <section id="meditation" class="py-20 px-6 relative z-10">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4 gradient-text">
+                Meditation & Focus
+            </h2>
+            <p class="text-center text-gray-300 text-lg mb-12 max-w-3xl mx-auto">
+                30-minute ambient soundscapes crafted from cosmic data. Perfect for meditation,
+                deep work, sleep, or creative flow. Let the universe calm your mind.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Meditation 1: Deep Space -->
+                <div class="glass-card p-8 hover:transform hover:scale-105 transition duration-300">
+                    <div class="flex items-start gap-4 mb-4">
+                        <i class="fas fa-spa text-5xl text-purple-400"></i>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-2">Deep Space Meditation</h3>
+                            <div class="flex gap-4 text-sm text-gray-400 mb-3">
+                                <span><i class="fas fa-clock mr-1"></i> 30 minutes</span>
+                                <span><i class="fas fa-moon mr-1"></i> Meditation</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Drift through tranquil cosmic depths surrounded by ancient nebulae. Slow-evolving
+                        ambient textures create a peaceful sonic universe for deep relaxation and mindfulness.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-2 py-1 bg-purple-500 bg-opacity-20 text-purple-300 rounded text-xs">
+                            Deep relaxation
+                        </span>
+                        <span class="px-2 py-1 bg-purple-500 bg-opacity-20 text-purple-300 rounded text-xs">
+                            Stress relief
+                        </span>
+                        <span class="px-2 py-1 bg-purple-500 bg-opacity-20 text-purple-300 rounded text-xs">
+                            Mindfulness
+                        </span>
+                    </div>
+                    <button class="btn-primary w-full" onclick="meditationPlayer?.startMeditation('deep-space-meditation')">
+                        <i class="fas fa-play mr-2"></i> Start Meditation
+                    </button>
+                </div>
+
+                <!-- Meditation 2: Solar Winds -->
+                <div class="glass-card p-8 hover:transform hover:scale-105 transition duration-300">
+                    <div class="flex items-start gap-4 mb-4">
+                        <i class="fas fa-brain text-5xl text-blue-400"></i>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-2">Solar Winds</h3>
+                            <div class="flex gap-4 text-sm text-gray-400 mb-3">
+                                <span><i class="fas fa-clock mr-1"></i> 30 minutes</span>
+                                <span><i class="fas fa-lightbulb mr-1"></i> Focus</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Feel the gentle flow of solar particles streaming from the Sun. Flowing textures
+                        that ebb and flow like cosmic tides, perfect for deep work and concentration.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-300 rounded text-xs">
+                            Improved focus
+                        </span>
+                        <span class="px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-300 rounded text-xs">
+                            Concentration
+                        </span>
+                        <span class="px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-300 rounded text-xs">
+                            Mental clarity
+                        </span>
+                    </div>
+                    <button class="btn-primary w-full" onclick="meditationPlayer?.startMeditation('solar-winds')">
+                        <i class="fas fa-play mr-2"></i> Start Focus Session
+                    </button>
+                </div>
+
+                <!-- Meditation 3: Cosmic Ocean -->
+                <div class="glass-card p-8 hover:transform hover:scale-105 transition duration-300">
+                    <div class="flex items-start gap-4 mb-4">
+                        <i class="fas fa-bed text-5xl text-indigo-400"></i>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-2">Cosmic Ocean</h3>
+                            <div class="flex gap-4 text-sm text-gray-400 mb-3">
+                                <span><i class="fas fa-clock mr-1"></i> 30 minutes</span>
+                                <span><i class="fas fa-moon mr-1"></i> Sleep</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Immerse in the primordial cosmic ocean where galaxies form. Water-like textures
+                        meet celestial harmonies for deep sleep and ultimate relaxation.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-2 py-1 bg-indigo-500 bg-opacity-20 text-indigo-300 rounded text-xs">
+                            Better sleep
+                        </span>
+                        <span class="px-2 py-1 bg-indigo-500 bg-opacity-20 text-indigo-300 rounded text-xs">
+                            Deep relaxation
+                        </span>
+                        <span class="px-2 py-1 bg-indigo-500 bg-opacity-20 text-indigo-300 rounded text-xs">
+                            Anxiety relief
+                        </span>
+                    </div>
+                    <button class="btn-primary w-full" onclick="meditationPlayer?.startMeditation('cosmic-ocean')">
+                        <i class="fas fa-play mr-2"></i> Start Sleep Session
+                    </button>
+                </div>
+
+                <!-- Meditation 4: Stellar Birth -->
+                <div class="glass-card p-8 hover:transform hover:scale-105 transition duration-300">
+                    <div class="flex items-start gap-4 mb-4">
+                        <i class="fas fa-palette text-5xl text-pink-400"></i>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-2">Stellar Birth</h3>
+                            <div class="flex gap-4 text-sm text-gray-400 mb-3">
+                                <span><i class="fas fa-clock mr-1"></i> 30 minutes</span>
+                                <span><i class="fas fa-star mr-1"></i> Creativity</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Experience the gentle awakening of new stars. Slowly brightening tones and
+                        evolving harmonies inspire creativity, perfect for creative work and new beginnings.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-2 py-1 bg-pink-500 bg-opacity-20 text-pink-300 rounded text-xs">
+                            Enhanced creativity
+                        </span>
+                        <span class="px-2 py-1 bg-pink-500 bg-opacity-20 text-pink-300 rounded text-xs">
+                            Inspiration
+                        </span>
+                        <span class="px-2 py-1 bg-pink-500 bg-opacity-20 text-pink-300 rounded text-xs">
+                            Energy boost
+                        </span>
+                    </div>
+                    <button class="btn-primary w-full" onclick="meditationPlayer?.startMeditation('stellar-birth')">
+                        <i class="fas fa-play mr-2"></i> Start Creative Session
+                    </button>
+                </div>
+            </div>
+
+            <!-- Timer Options -->
+            <div class="mt-12 text-center">
+                <p class="text-gray-400 text-sm mb-4">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    All sessions are 30 minutes by default. You can extend time during playback.
+                </p>
+                <p class="text-gray-300 text-xs">
+                    Tip: Use headphones for the best immersive experience. Find a quiet space where you won't be disturbed.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- Learn Section -->
     <section id="learn" class="py-20 px-6 relative z-10">
         <div class="container mx-auto">
@@ -704,6 +860,8 @@
     <script src="create/creation-tool.js"></script>
     <script src="tours/tour-data.js"></script>
     <script src="tours/tour-player.js"></script>
+    <script src="meditation/meditation-data.js"></script>
+    <script src="meditation/meditation-player.js"></script>
     <script src="educational-modal.js"></script>
     <script src="app.js"></script>
 </body>
