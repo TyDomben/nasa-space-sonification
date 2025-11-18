@@ -271,14 +271,16 @@ class CreationTool {
 
         const url = urlInput.value.trim();
         if (!url) {
-            alert('Please enter an image URL');
+            notify.warning('Please enter an image URL');
             return;
         }
 
         try {
+            notify.info('Loading image from URL...');
             await this.loadImage(url);
+            notify.success('Image loaded successfully!');
         } catch (error) {
-            alert('Failed to load image. Please check the URL and CORS settings.');
+            notify.error('Failed to load image. Please check the URL and CORS settings.');
         }
     }
 
@@ -315,7 +317,7 @@ class CreationTool {
 
         } catch (error) {
             console.error('Failed to load image:', error);
-            alert('Failed to load image. Please try another image or check CORS settings.');
+            notify.error('Failed to load image. Please try another image or check CORS settings.');
         }
     }
 
@@ -324,7 +326,7 @@ class CreationTool {
      */
     async previewSonification() {
         if (!this.imageData) {
-            alert('Please load an image first');
+            notify.warning('Please load an image first');
             return;
         }
 
@@ -379,14 +381,42 @@ class CreationTool {
     }
 
     /**
-     * Save creation
+     * Save creation to local storage
      */
     saveCreation() {
-        alert('Save feature coming soon! This will allow you to save your creation to a gallery.');
+        if (!this.imageData) {
+            notify.warning('Please create a sonification first');
+            return;
+        }
+
+        const config = {
+            scanMode: document.getElementById('scan-mode').value,
+            scale: document.getElementById('musical-scale').value,
+            synthType: document.getElementById('synth-type').value,
+            duration: parseInt(document.getElementById('duration-slider').value),
+            stereo: document.getElementById('stereo-enabled').checked
+        };
+
+        // Get existing saved creations
+        const saved = JSON.parse(localStorage.getItem('saved-sonifications') || '[]');
+
+        // Add new creation
+        const creation = {
+            id: Date.now(),
+            name: `Custom Sonification ${saved.length + 1}`,
+            config: config,
+            imageData: document.getElementById('preview-image')?.src || '',
+            created: new Date().toISOString()
+        };
+
+        saved.push(creation);
+        localStorage.setItem('saved-sonifications', JSON.stringify(saved));
+
+        notify.success(`Saved as "${creation.name}"! (${saved.length} total saved)`);
     }
 
     /**
-     * Share creation
+     * Share creation link
      */
     shareCreation() {
         const config = {
@@ -401,15 +431,60 @@ class CreationTool {
         const url = `${window.location.origin}${window.location.pathname}?config=${shareData}`;
 
         navigator.clipboard.writeText(url).then(() => {
-            alert('Share link copied to clipboard!');
+            notify.success('Share link copied to clipboard!');
+        }).catch(() => {
+            notify.error('Failed to copy link. Please copy manually: ' + url);
         });
     }
 
     /**
-     * Export audio
+     * Export audio file
      */
-    exportAudio() {
-        alert('Export feature coming soon! This will allow you to download your sonification as audio.');
+    async exportAudio() {
+        if (!this.imageData) {
+            notify.warning('Please create a sonification first');
+            return;
+        }
+
+        notify.info('Starting audio export... This may take a moment.');
+
+        try {
+            // Initialize audio
+            await audioEngine.init();
+
+            // Get configuration
+            const config = {
+                scanMode: document.getElementById('scan-mode').value,
+                scale: document.getElementById('musical-scale').value,
+                synthType: document.getElementById('synth-type').value,
+                duration: parseInt(document.getElementById('duration-slider').value),
+                stereo: document.getElementById('stereo-enabled').checked
+            };
+
+            // Start recording
+            const started = await audioRecorder.startRecording();
+            if (!started) {
+                notify.error('Failed to start audio recording');
+                return;
+            }
+
+            // Generate and play sonification
+            const sonificationData = await sonificationEngine.sonifyImage(this.imageData, config);
+            await sonificationEngine.playSonification(sonificationData);
+
+            // Stop recording and get blob
+            const blob = await audioRecorder.stopRecording();
+
+            // Download file
+            const filename = `sonification-${Date.now()}.webm`;
+            audioRecorder.downloadAudio(blob, filename);
+
+            notify.success(`Audio exported as ${filename}!`);
+
+        } catch (error) {
+            console.error('Export error:', error);
+            notify.error('Failed to export audio. Please try again.');
+        }
     }
 }
 

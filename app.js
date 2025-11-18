@@ -323,10 +323,10 @@ class SpaceSonificationApp {
                     }, 2000);
                 }, 10000);
 
-                alert('Hearing the ISS position as sound! Higher pitch = further north, tone changes = longitude.');
+                notify.success('🛰️ Hearing the ISS! Higher pitch = further north, tone changes = longitude.');
             }
         } catch (error) {
-            alert('Failed to load ISS data. Please try again later.');
+            notify.error('Failed to load ISS data. Please try again later.');
         }
     }
 
@@ -347,12 +347,12 @@ class SpaceSonificationApp {
                 const intensity = flares.length / 10; // Normalize
                 SpaceSoundGenerator.generateSupernova(intensity, 8);
 
-                alert(`Hearing ${flares.length} solar flares from the past week as sound!`);
+                notify.success(`☀️ Hearing ${flares.length} solar flares from the past week!`);
             } else {
-                alert('No significant solar activity to sonify in the past week.');
+                notify.info('No significant solar activity in the past week. Our star is calm!');
             }
         } catch (error) {
-            alert('Failed to load solar activity data. Please try again later.');
+            notify.error('Failed to load solar activity data. Please try again later.');
         }
     }
 }

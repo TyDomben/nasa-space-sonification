@@ -164,6 +164,9 @@ class GalleryManager {
 
         if (!modal || !title || !content) return;
 
+        // Store current sonification for export
+        this.currentSonification = item;
+
         // Initialize audio engine if needed
         await audioEngine.init();
 
@@ -601,19 +604,59 @@ class GalleryManager {
     }
 
     /**
-     * Export audio (placeholder)
+     * Export audio - now fully functional!
      */
-    exportAudio() {
-        alert('Audio export feature coming soon! This will allow you to download the sonification as WAV or MP3.');
+    async exportAudio() {
+        // Get current playing item (stored during openPlayer)
+        if (!this.currentSonification) {
+            notify.warning('Please play a sonification first');
+            return;
+        }
+
+        notify.info('Starting audio export... This may take a moment.');
+
+        try {
+            await audioEngine.init();
+
+            // Start recording
+            const started = await audioRecorder.startRecording();
+            if (!started) {
+                notify.error('Failed to start audio recording');
+                return;
+            }
+
+            // Prepare and play sonification
+            const sonificationData = await this.prepareSonification(this.currentSonification);
+
+            if (sonificationData.type === 'procedural') {
+                sonificationData.play();
+                await new Promise(resolve => setTimeout(resolve, this.currentSonification.duration * 1000));
+            } else {
+                await sonificationEngine.playSonification(sonificationData);
+            }
+
+            // Stop recording and download
+            const blob = await audioRecorder.stopRecording();
+            const filename = `${this.currentSonification.id}-${Date.now()}.webm`;
+            audioRecorder.downloadAudio(blob, filename);
+
+            notify.success(`Audio exported as ${filename}!`);
+
+        } catch (error) {
+            console.error('Export error:', error);
+            notify.error('Failed to export audio. Please try again.');
+        }
     }
 
     /**
-     * Share link (placeholder)
+     * Share link with notification
      */
     shareLink(id) {
         const url = `${window.location.origin}${window.location.pathname}?play=${id}`;
         navigator.clipboard.writeText(url).then(() => {
-            alert('Link copied to clipboard!');
+            notify.success('Share link copied to clipboard!');
+        }).catch(() => {
+            notify.error('Failed to copy. URL: ' + url);
         });
     }
 }
